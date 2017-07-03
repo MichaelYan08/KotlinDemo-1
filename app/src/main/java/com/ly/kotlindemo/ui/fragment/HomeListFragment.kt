@@ -12,8 +12,10 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView
 import com.ly.kotlindemo.R
 import com.ly.kotlindemo.adapter.HomeAdapter
 import com.ly.kotlindemo.net.ApiServices
+import com.ly.kotlindemo.ui.activity.SeeWebViewActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * Created by Shinelon on 2017/6/23.
@@ -45,7 +47,11 @@ class HomeListFragment : Fragment() {
                 getData(pagerNo)
             }
         })
-
+        homeAdapter?.setItemClickListener(object : HomeAdapter.ItemClickListener {
+            override fun onItemclick(url: String, desc: String) {
+                startActivity<SeeWebViewActivity>("url" to url, "desc" to desc)
+            }
+        })
     }
 
 

@@ -13,7 +13,9 @@ import com.ly.kotlindemo.model.GankResults
 import java.util.*
 
 /**
- * Created by Shinelon on 2017/6/23.
+ * Created by Ly on 2017/6/23.
+ * 美女合集适配器
+ *
  */
 class GirlAdapter(context: Context) : RecyclerView.Adapter<GirlHolder>() {
     private var data = ArrayList<GankResults.Item>()
@@ -35,7 +37,7 @@ class GirlAdapter(context: Context) : RecyclerView.Adapter<GirlHolder>() {
     }
 
     override fun onBindViewHolder(holder: GirlHolder?, position: Int) {
-        Glide.with(context).load(data[position].url).into(holder?.ivGril)
+        Glide.with(context).load(data[position].url).into(holder?.ivGirl)
         holder?.itemView?.setOnClickListener {
             onItemClickListener?.onItemClickListener(data[position].url)
         }
@@ -48,7 +50,7 @@ class GirlAdapter(context: Context) : RecyclerView.Adapter<GirlHolder>() {
     }
 
     inner class GirlHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var ivGril: ImageView = itemView.findViewById(R.id.iv_girl)
+        internal var ivGirl: ImageView = itemView.findViewById(R.id.iv_girl)
     }
 
     interface ItemClickListener {

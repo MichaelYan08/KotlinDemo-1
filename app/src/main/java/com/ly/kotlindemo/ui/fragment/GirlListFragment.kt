@@ -48,7 +48,6 @@ class GirlListFragment : Fragment() {
         })
         girlAdapter?.setOnItemClickListener(object : GirlAdapter.ItemClickListener {
             override fun onItemClickListener(url: String) {
-                Log.e("------------------", url)
                 val intent = Intent()
                 val bun = Bundle()
                 bun.putString("url", url)

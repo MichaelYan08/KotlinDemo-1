@@ -2,7 +2,6 @@ package com.ly.kotlindemo.adapter
 
 import android.content.Context
 import android.graphics.Color
-import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -23,17 +22,24 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<HomeAdapter.HomeHolde
     private var data = ArrayList<GankResults.Item>()
     private var context: Context = context
 
+    private var itemClickListener: ItemClickListener? = null
     fun setData(data: List<GankResults.Item>) {
         this.data.clear()
         this.data.addAll(data)
         notifyDataSetChanged()
     }
+
     fun addData(data: List<GankResults.Item>) {
         this.data.addAll(data)
         notifyDataSetChanged()
     }
+
+    fun setItemClickListener(itemClickListener: ItemClickListener) {
+        this.itemClickListener = itemClickListener
+    }
+
     override fun onBindViewHolder(holder: HomeHolder?, position: Int) {
-        var dataItem: GankResults.Item = data[position]
+        val dataItem: GankResults.Item = data[position]
         val type: String = dataItem.type
         when (type) {
             "休息视频" -> {
@@ -55,12 +61,12 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<HomeAdapter.HomeHolde
                 holder?.tvItem?.text = dataItem.desc
             }
         }
-        val uri: Uri? = null
         when (dataItem.type) {
             "Android" -> holder?.ivType?.setImageResource(R.mipmap.android_icon)
             "iOS" -> holder?.ivType?.setImageResource(R.mipmap.ios_icon)
             "前端" -> holder?.ivType?.setImageResource(R.mipmap.js_icon)
             "拓展资源" -> holder?.ivType?.setImageResource(R.mipmap.other_icon)
+            else -> holder?.ivType?.setImageResource(R.mipmap.android_icon)
         }
         val author = dataItem.who
         if (author != null) {
@@ -71,6 +77,10 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<HomeAdapter.HomeHolde
         }
         holder?.tvTime?.text = dataItem.createdAt
         holder?.tvType?.text = type
+
+        holder?.itemView?.setOnClickListener {
+            itemClickListener?.onItemclick(dataItem.url, dataItem.desc)
+        }
     }
 
 
@@ -105,5 +115,9 @@ class HomeAdapter(context: Context) : RecyclerView.Adapter<HomeAdapter.HomeHolde
             ivVedio = itemView.findViewById<ImageView>(R.id.iv_vedio)
             tvItem = itemView.findViewById<TextView>(R.id.tv_item)
         }
+    }
+
+    interface ItemClickListener {
+        fun onItemclick(url: String, desc: String)
     }
 }
